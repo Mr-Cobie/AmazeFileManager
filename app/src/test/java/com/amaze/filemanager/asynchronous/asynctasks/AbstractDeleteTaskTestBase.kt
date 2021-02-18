@@ -30,6 +30,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.amaze.filemanager.R
 import com.amaze.filemanager.filesystem.HybridFileParcelable
+import com.amaze.filemanager.shadows.ShadowMultiDex
+import com.amaze.filemanager.shadows.ShadowSmbUtil
+import com.amaze.filemanager.test.ShadowCryptUtil
+import com.amaze.filemanager.test.ShadowTabHandler
 import com.amaze.filemanager.test.TestUtils
 import com.amaze.filemanager.ui.activities.MainActivity
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -40,12 +44,22 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.Shadows.shadowOf
+import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import org.robolectric.shadows.ShadowSQLiteConnection
 import org.robolectric.shadows.ShadowToast
 
 @RunWith(AndroidJUnit4::class)
 @LooperMode(LooperMode.Mode.PAUSED)
+@Config(
+    shadows = [
+        ShadowMultiDex::class,
+        ShadowCryptUtil::class,
+        ShadowTabHandler::class,
+        ShadowSmbUtil::class
+    ],
+    sdk = [Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.KITKAT, Build.VERSION_CODES.P]
+)
 abstract class AbstractDeleteTaskTestBase {
 
     private var ctx: Context? = null
